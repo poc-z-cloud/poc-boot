@@ -14,7 +14,7 @@
 							<ul class="nav navbar-nav">
 								<li><a href="#" th:href="@{/mvc/products}">Products</a></li>
 								<li><a href="#" th:href="@{/mvc/product/new}"
-									sec:authorize="hasAuthority('ADMIN')">Create Product</a></li>
+									sec:authorize="hasRole('ADMIN')">Create Product</a></li>
 								<li><a href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">Sign In</a></li>
 								<li><a href="#" th:href="@{/logout}" sec:authorize="isAuthenticated()">Sign Out</a></li>
 							</ul>
