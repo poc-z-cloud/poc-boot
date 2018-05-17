@@ -1,4 +1,4 @@
-package com.greateq.bootweb;
+package poc.spring.boot;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
