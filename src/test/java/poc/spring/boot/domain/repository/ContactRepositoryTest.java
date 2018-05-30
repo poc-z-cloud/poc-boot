@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -44,20 +45,32 @@ public class ContactRepositoryTest {
     @Test
     public void testUpdateData(){
         /*Test data retrieval*/
-        Contact contact = contactRepository.findByFirstName("FIRST Name");
-        assertNotNull(contact);
+        List<Contact> contactList = contactRepository.findByFirstName("FIRST Name");
+        assertNotNull(contactList);
+
+        for (Contact contact: contactList){
+            contact.setFirstName("First Name Updated");
+        }
         
-        contact.setFirstName("First Name Updated");
-        
-        contactRepository.save(contact);
+        contactRepository.saveAll(contactList);
+
     }
 
     @Test
     public void testFetchData(){
         /*Test data retrieval*/
-        Contact contactA = contactRepository.findByFirstName("Jon");
-        assertNotNull(contactA);
-        assertEquals("Snow", contactA.getLastName());
+        List<Contact> contactList = contactRepository.findByFirstName("Jon");
+        
+        assertNotNull(contactList);
+//        assertEquals("Snow", contactA.getLastName());
+        
+        contactList = contactRepository.findByFirstNameAndLastName("Jon", "Snow");
+        for (Contact contact: contactList){
+        	
+        	System.out.println("Found: " + contact.getName());
+        	assertEquals("Snow", contact.getLastName());
+        }
+        
         /*Get all products, list should only have two*/
         Iterable<Contact> contacts = contactRepository.findAll();
         for(Contact o : contacts){

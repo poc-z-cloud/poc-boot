@@ -10,6 +10,7 @@ import javax.persistence.Id;
 @Entity
 public class Contact {
 	@Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer contact_id;
     
