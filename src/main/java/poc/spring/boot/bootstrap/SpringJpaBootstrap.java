@@ -11,55 +11,61 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import poc.spring.boot.domain.model.Contact;
 import poc.spring.boot.domain.model.Product;
 import poc.spring.boot.domain.model.Role;
 import poc.spring.boot.domain.model.User;
+import poc.spring.boot.domain.repository.ContactRepository;
 import poc.spring.boot.domain.repository.ProductRepository;
 import poc.spring.boot.service.RoleService;
 import poc.spring.boot.service.UserService;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Component
-@Profile("springdatajpa")
+@Profile("dev")
 public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
-    private ProductRepository productRepository;
-    private UserService userService;
-    private RoleService roleService;
+	@Autowired	private ProductRepository productRepository;
+	@Autowired	private ContactRepository contactRepository;
+	@Autowired	private UserService userService;
+	@Autowired	private RoleService roleService;
 
     private Logger log = LoggerFactory.getLogger(ProductLoader.class);
 
     
-	@Autowired
-	@Qualifier("userService")
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
-
-	
-	@Autowired
-	public void setProductRepository(ProductRepository productRepository) {
-		this.productRepository = productRepository;
-	}
-
-
-	@Autowired
-	@Qualifier("roleService")
-	public void setRoleService(RoleService roleService) {
-		this.roleService = roleService;
-	}
+//	@Autowired
+//	@Qualifier("userService")
+//	public void setUserService(UserService userService) {
+//		this.userService = userService;
+//	}
+//
+//	
+//	@Autowired
+//	public void setProductRepository(ProductRepository productRepository) {
+//		this.productRepository = productRepository;
+//	}
+//
+//
+//	@Autowired
+//	@Qualifier("roleService")
+//	public void setRoleService(RoleService roleService) {
+//		this.roleService = roleService;
+//	}
 
 
 	@Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 		
-        loadProducts();
         loadUsers();
         loadRoles();
         assignUsersToUserRole();
         assignUsersToAdminRole();
+
+        loadProducts();
+        loadContact();
     }
 
     private void loadProducts() {
@@ -82,15 +88,28 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
         log.info("Saved Mug - id:" + mug.getId());
     }
 
+
+    private void loadContact() {
+    	Contact contact = new Contact();
+    	contact.setFirstName("Jon");
+    	contact.setLastName("Snow");
+    	contact.setBirthday(new Date());
+    	
+    	contactRepository.save(contact);
+
+        log.info("Saved contact - id: " + contact.getContactId());
+
+    }
+    
     private void loadUsers() {
         User user1 = new User();
-        user1.setUsername("user1");
-        user1.setPassword("user1");
+        user1.setUsername("user");
+        user1.setPassword("user");
         userService.saveOrUpdate(user1);
 
         User user2 = new User();
-        user2.setUsername("admin1");
-        user2.setPassword("admin1");
+        user2.setUsername("admin");
+        user2.setPassword("admin");
         userService.saveOrUpdate(user2);
 
     }
@@ -112,7 +131,7 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
         for(Role role: roles){
         	if (role.getRole().equalsIgnoreCase("USER")){
         		for (User user:users){
-        			if (user.getUsername().equals("user1")){
+        			if (user.getUsername().equals("user")){
         				user.addRole(role);
         				userService.saveOrUpdate(user);
         			}
@@ -128,7 +147,7 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
         for(Role role: roles){
         	if (role.getRole().equalsIgnoreCase("ADMIN")){
         		for (User user:users){
-        			if (user.getUsername().equals("admin1")){
+        			if (user.getUsername().equals("admin")){
         				user.addRole(role);
         				userService.saveOrUpdate(user);
         			}

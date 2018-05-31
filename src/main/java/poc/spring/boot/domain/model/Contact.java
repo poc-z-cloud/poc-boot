@@ -12,18 +12,19 @@ public class Contact {
 	@Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer contact_id;
+	private Integer contactId;
     
 	private String firstName;
 	private String lastName;
 	private String phoneNumber;
 	private Date birthday;
 	
-	public Integer getContact_id() {
-		return contact_id;
+	
+	public Integer getContactId() {
+		return contactId;
 	}
-	public void setContact_id(Integer contact_id) {
-		this.contact_id = contact_id;
+	public void setContactId(Integer contactId) {
+		this.contactId = contactId;
 	}
 	public String getFirstName() {
 		return firstName;

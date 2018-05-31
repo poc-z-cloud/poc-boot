@@ -39,7 +39,7 @@ public class ContactRepositoryTest {
     	
     	contact = contactRepository.save(contact);
     	
-    	System.out.println("contactId: " + contact.getContact_id());
+    	System.out.println("contactId: " + contact.getContactId());
     }
 
     @Test
