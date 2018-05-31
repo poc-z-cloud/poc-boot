@@ -26,11 +26,11 @@ public class OrderRepositoryTest {
     @Test
     public void testUpdateData(){
         /*Test data retrieval*/
-        Order orderA = orderRepository.findByProductName("Dell Monitor");
+        Order orderA = orderRepository.findByProductName("Dell Monitor L2401");
         assertNotNull(orderA);
         assertEquals(1, orderA.getQty().intValue());
         
-        orderA.setProductName("Dell Monitor L2401");
+        orderA.setProductName("Dell Monitor");
         
         orderRepository.save(orderA);
     }
