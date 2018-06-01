@@ -1,8 +1,8 @@
 package poc.spring.boot.domain.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import poc.spring.boot.domain.model.Product;
  
-public interface ProductRepository extends CrudRepository<Product, Integer>{
+public interface ProductRepository extends MongoRepository<Product, String>{
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import poc.spring.boot.service.CRUDService;
 
@@ -18,7 +18,7 @@ public abstract class CRUDServiceImpl<T> implements CRUDService<T>{
 	}
 
 	@Override
-	public T getById(Integer id) {
+	public T getById(String id) {
 		return getRepository().findById(id).get();
 	}
 
@@ -28,10 +28,10 @@ public abstract class CRUDServiceImpl<T> implements CRUDService<T>{
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void delete(String id) {
 		getRepository().deleteById(id);
 		
 	}
 
-	abstract protected CrudRepository<T,Integer> getRepository();
+	abstract protected MongoRepository<T,String> getRepository();
 }

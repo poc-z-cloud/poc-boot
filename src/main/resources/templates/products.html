@@ -16,7 +16,6 @@
         <table class="table table-striped">
             <tr>
                 <th>Id</th>
-                <th>Product Id</th>
                 <th>Description</th>
                 <th>Price</th>
                 <th sec:authorize="hasAnyAuthority('USER','ADMIN')">View</th>
@@ -25,7 +24,6 @@
              </tr>
             <tr th:each="product : ${products}">
                 <td th:text="${product.id}"><a href="/mvc/product/${product.id}">Id</a></td>
-                <td th:text="${product.productId}">Product Id</td>
                 <td th:text="${product.description}">descirption</td>
                 <td th:text="${product.price}">price</td>
                 

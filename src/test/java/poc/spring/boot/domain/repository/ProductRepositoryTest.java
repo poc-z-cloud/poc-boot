@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import poc.spring.boot.configuration.RepositoryConfiguration;
+import poc.spring.boot.configuration.MongoRepositoryConfiguration;
 import poc.spring.boot.domain.model.Product;
 
 import java.math.BigDecimal;
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = {RepositoryConfiguration.class})
+@SpringBootTest(classes = {MongoRepositoryConfiguration.class})
 public class ProductRepositoryTest {
 
     private ProductRepository productRepository;
@@ -32,7 +32,6 @@ public class ProductRepositoryTest {
         Product product = new Product();
         product.setDescription("Spring Framework Guru Shirt");
         product.setPrice(new BigDecimal("18.95"));
-        product.setProductId("1234");
 
         //save product, verify has ID value after save
         assertNull(product.getId()); //null before save

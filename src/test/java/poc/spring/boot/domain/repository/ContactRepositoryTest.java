@@ -14,12 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import poc.spring.boot.configuration.RepositoryConfiguration;
+import poc.spring.boot.configuration.MongoRepositoryConfiguration;
 import poc.spring.boot.domain.model.Contact;
-import poc.spring.boot.domain.model.Order;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = {RepositoryConfiguration.class})
+@SpringBootTest(classes = {MongoRepositoryConfiguration.class})
 public class ContactRepositoryTest {
     @Autowired
     private ContactRepository contactRepository;
@@ -39,7 +38,7 @@ public class ContactRepositoryTest {
     	
     	contact = contactRepository.save(contact);
     	
-    	System.out.println("contactId: " + contact.getContactId());
+    	System.out.println("contactId: " + contact.getId());
     }
 
     @Test

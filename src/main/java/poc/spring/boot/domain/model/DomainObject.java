@@ -1,7 +1,7 @@
 package poc.spring.boot.domain.model;
 
 public interface DomainObject {
-    Integer getId();
+    String getId();
     
-    void setId(Integer id);
+    void setId(String id);
 }

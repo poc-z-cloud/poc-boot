@@ -2,17 +2,7 @@ package poc.spring.boot.domain.model;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
-public class Contact {
-	@Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer contactId;
+public class Contact extends AbstractDomainClass{
     
 	private String firstName;
 	private String lastName;
@@ -20,12 +10,6 @@ public class Contact {
 	private Date birthday;
 	
 	
-	public Integer getContactId() {
-		return contactId;
-	}
-	public void setContactId(Integer contactId) {
-		this.contactId = contactId;
-	}
 	public String getFirstName() {
 		return firstName;
 	}
