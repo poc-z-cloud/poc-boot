@@ -7,6 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ *  a example of explicit table/column mapping(such as legacy table that follows different naming convention)
+ * @author guja
+ *
+ */
 @Entity
 @Table(name = "ORDERS")
 public class Order {

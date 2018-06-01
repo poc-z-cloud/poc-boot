@@ -1,6 +1,9 @@
 package poc.spring.boot.domain.model;
 
 import javax.persistence.*;
+
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+
 import java.util.ArrayList;
 import java.util.List;
  
@@ -37,6 +40,7 @@ public class User extends AbstractDomainClass  {
  
     public void setPassword(String password) {
         this.password = password;
+        this.encryptedPassword=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(password);
     }
  
     public String getEncryptedPassword() {

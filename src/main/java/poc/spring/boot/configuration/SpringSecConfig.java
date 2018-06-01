@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 
 @Configuration
 public class SpringSecConfig extends WebSecurityConfigurerAdapter {
@@ -31,7 +32,7 @@ public class SpringSecConfig extends WebSecurityConfigurerAdapter {
 
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
 //      in Spring security 5, default encryptor setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
-//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder); 
+        daoAuthenticationProvider.setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()); 
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         return daoAuthenticationProvider;
     }
@@ -46,7 +47,7 @@ public class SpringSecConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests().antMatchers("/","/webjars/**","/css/**","/images/**","/mvc/products","mvc/product/show/*","/console/**").permitAll()
         .anyRequest().authenticated()
         .and()
-        .formLogin().loginPage("/login").permitAll()
+        .formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password").permitAll()
         .and()
         .logout().permitAll();
         

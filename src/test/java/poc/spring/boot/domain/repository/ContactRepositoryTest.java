@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import poc.spring.boot.configuration.RepositoryConfiguration;
 import poc.spring.boot.domain.model.Contact;
-import poc.spring.boot.domain.model.Order;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {RepositoryConfiguration.class})
@@ -39,7 +38,7 @@ public class ContactRepositoryTest {
     	
     	contact = contactRepository.save(contact);
     	
-    	System.out.println("contactId: " + contact.getContactId());
+    	System.out.println("contactId: " + contact.getId());
     }
 
     @Test

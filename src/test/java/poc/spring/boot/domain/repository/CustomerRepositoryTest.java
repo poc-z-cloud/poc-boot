@@ -11,12 +11,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import poc.spring.boot.configuration.MongoRepositoryConfiguration;
+import poc.spring.boot.configuration.RepositoryConfiguration;
 import poc.spring.boot.domain.model.Customer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = {MongoRepositoryConfiguration.class})
+@SpringBootTest(classes = {RepositoryConfiguration.class})
 public class CustomerRepositoryTest {
     @Autowired
     private CustomerRepository customerRepository;

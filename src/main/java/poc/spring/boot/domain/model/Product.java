@@ -4,14 +4,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
  
 @Entity
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
- 
-    @Version
-    private Integer version;
- 
+public class Product extends AbstractDomainClass{
     private String productId;
     private String description;
     private String imageUrl;
@@ -23,14 +16,6 @@ public class Product {
  
     public void setDescription(String description) {
         this.description = description;
-    }
- 
-    public Integer getVersion() {
-        return version;
-    }
- 
-    public void setVersion(Integer version) {
-        this.version = version;
     }
  
     public Integer getId() {

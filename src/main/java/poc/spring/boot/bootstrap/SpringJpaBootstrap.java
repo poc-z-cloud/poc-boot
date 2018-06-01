@@ -1,12 +1,13 @@
 package poc.spring.boot.bootstrap;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -17,12 +18,8 @@ import poc.spring.boot.domain.model.Role;
 import poc.spring.boot.domain.model.User;
 import poc.spring.boot.domain.repository.ContactRepository;
 import poc.spring.boot.domain.repository.ProductRepository;
-import poc.spring.boot.service.RoleService;
-import poc.spring.boot.service.UserService;
-
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+import poc.spring.boot.domain.repository.RoleRepository;
+import poc.spring.boot.domain.repository.UserRepository;
 
 @Component
 @Profile("dev")
@@ -30,32 +27,12 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
 
 	@Autowired	private ProductRepository productRepository;
 	@Autowired	private ContactRepository contactRepository;
-	@Autowired	private UserService userService;
-	@Autowired	private RoleService roleService;
+	@Autowired	private UserRepository userRepository;
+	@Autowired	private RoleRepository roleRepository;
 
-    private Logger log = LoggerFactory.getLogger(ProductLoader.class);
+    private Logger log = LoggerFactory.getLogger(SpringJpaBootstrap.class);
 
     
-//	@Autowired
-//	@Qualifier("userService")
-//	public void setUserService(UserService userService) {
-//		this.userService = userService;
-//	}
-//
-//	
-//	@Autowired
-//	public void setProductRepository(ProductRepository productRepository) {
-//		this.productRepository = productRepository;
-//	}
-//
-//
-//	@Autowired
-//	@Qualifier("roleService")
-//	public void setRoleService(RoleService roleService) {
-//		this.roleService = roleService;
-//	}
-
-
 	@Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 		
@@ -69,6 +46,8 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
     }
 
     private void loadProducts() {
+    	productRepository.deleteAll();
+    	
         Product shirt = new Product();
         shirt.setDescription("Spring Framework Guru Shirt");
         shirt.setPrice(new BigDecimal("18.95"));
@@ -90,6 +69,8 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
 
 
     private void loadContact() {
+    	contactRepository.deleteAll();
+    	
     	Contact contact = new Contact();
     	contact.setFirstName("Jon");
     	contact.setLastName("Snow");
@@ -97,43 +78,47 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
     	
     	contactRepository.save(contact);
 
-        log.info("Saved contact - id: " + contact.getContactId());
+        log.info("Saved contact - id: " + contact.getId());
 
     }
     
     private void loadUsers() {
+    	userRepository.deleteAll();
+    	
         User user1 = new User();
         user1.setUsername("user");
         user1.setPassword("user");
-        userService.saveOrUpdate(user1);
+        userRepository.save(user1);
 
         User user2 = new User();
         user2.setUsername("admin");
         user2.setPassword("admin");
-        userService.saveOrUpdate(user2);
+        userRepository.save(user2);
 
     }
 
     private void loadRoles() {
+    	roleRepository.deleteAll();
+    	
         Role role = new Role();
         role.setRole("USER");
-        roleService.saveOrUpdate(role);
+        roleRepository.save(role);
         log.info("Saved role" + role.getRole());
         Role adminRole = new Role();
         adminRole.setRole("ADMIN");
-        roleService.saveOrUpdate(adminRole);
+        roleRepository.save(adminRole);
         log.info("Saved role" + adminRole.getRole());
     }
     private void assignUsersToUserRole() {
-        List<Role> roles = (List<Role>) roleService.listAll();
-        List<User> users = (List<User>) userService.listAll();
+        List<Role> roles = (List<Role>) roleRepository.findAll();
+        List<User> users = (List<User>) userRepository.findAll();
 
         for(Role role: roles){
         	if (role.getRole().equalsIgnoreCase("USER")){
         		for (User user:users){
         			if (user.getUsername().equals("user")){
         				user.addRole(role);
-        				userService.saveOrUpdate(user);
+        				userRepository.save(user);
         			}
         		}
         	}
@@ -141,15 +126,15 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
         
     }
     private void assignUsersToAdminRole() {
-        List<Role> roles = (List<Role>) roleService.listAll();
-        List<User> users = (List<User>) userService.listAll();
+        List<Role> roles = (List<Role>) roleRepository.findAll();
+        List<User> users = (List<User>) userRepository.findAll();
 
         for(Role role: roles){
         	if (role.getRole().equalsIgnoreCase("ADMIN")){
         		for (User user:users){
         			if (user.getUsername().equals("admin")){
         				user.addRole(role);
-        				userService.saveOrUpdate(user);
+        				userRepository.save(user);
         			}
         		}
         	}

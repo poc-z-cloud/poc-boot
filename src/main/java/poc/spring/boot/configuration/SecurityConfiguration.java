@@ -2,6 +2,7 @@ package poc.spring.boot.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @Order(1)
+@Profile("disabled")
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
@@ -28,7 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("admin").password("{noop}admin").roles("ADMIN")
-                .and().withUser("user").password("{noop}user").roles("USER");;
+                .withUser("admin1").password("{noop}admin1").roles("ADMIN")
+                .and().withUser("user1").password("{noop}user1").roles("USER");;
     }	
 }

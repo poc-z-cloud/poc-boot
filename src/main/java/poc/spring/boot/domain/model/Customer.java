@@ -1,11 +1,9 @@
 package poc.spring.boot.domain.model;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.Entity;
 
-public class Customer {
-
-    @Id
-    public String id;
+@Entity
+public class Customer extends AbstractDomainClass{
 
     public String firstName;
     public String lastName;
@@ -18,14 +16,6 @@ public class Customer {
     }
 
     
-    public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public String getFirstName() {
 		return firstName;
 	}
