@@ -9,4 +9,9 @@ public class IndexController {
     String index(){
         return "index";
     }
+    @RequestMapping("/console")
+    String console(){
+        return "console/dashboard";
+    }
+
 }
