@@ -34,15 +34,16 @@
             </div>
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li th:classappend="${module == 'dashboard' ? 'active' : ''}"><a href="dashboard"><i class="glyphicon glyphicon-th"></i> Dashboard</a></li>
-                    <li class="nav nav-list nav-list-expandable " th:classappend="${module == 'user-list' or module == 'role-list' ? 'nav-list-expanded' : ''}">
+                    <li th:classappend="${module == 'dashboard' ? 'active' : ''}"><a href="/console/dashboard"><i class="glyphicon glyphicon-th"></i> Dashboard</a></li>
+                    <li class="nav nav-list nav-list-expandable " th:classappend="${module == 'user-list' or module == 'role-list' or module == 'product-list' ? 'nav-list-expanded' : ''}">
                         <a><i class="fa fa-user"></i> User Management <span class="caret"></span></a>
                         <ul class="nav navbar-nav">
-                            <li th:classappend="${module == 'user-list' ? 'active' : ''}" ><a href="user-list"><i class="fa fa-table"></i> User List</a></li>
-                            <li th:classappend="${module == 'role-list' ? 'active' : ''}" ><a href="role-list"><i class="fa fa-edit"></i> Role List</a></li>
+                            <li th:classappend="${module == 'user-list' ? 'active' : ''}" ><a href="/console/user-list"><i class="fa fa-table"></i> User List</a></li>
+                            <li th:classappend="${module == 'role-list' ? 'active' : ''}" ><a href="/console/role-list"><i class="fa fa-edit"></i> Role List</a></li>
+                            <li th:classappend="${module == 'product-list' ? 'active' : ''}" ><a href="/console/product-list"><i class="fa fa-edit"></i> Product List</a></li>
                         </ul>
                     </li>
-                    <li th:classappend="${module == 'guru' ? 'active' : ''}" ><a href="guru"><i class="fa fa-magic"></i> Guru</a></li>
+                    <li th:classappend="${module == 'guru' ? 'active' : ''}" ><a href="/console/guru"><i class="fa fa-magic"></i> Guru</a></li>
                     <li class="nav nav-list nav-list-expandable">
                         <a><i class="fa fa-key"></i> Collapsed Menu Item <span class="caret"></span></a>
                         <ul class="nav navbar-nav">
@@ -74,12 +75,13 @@
                         </ul>
                     </li>
                     <li class="dropdown user-dropdown">
-                       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Jon Snow<b class="caret"></b></a>
+                       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <span sec:authorize="isAuthenticated()">Welcome <span
+					sec:authentication="name"></span></span><b class="caret"></b></a>
                        <ul class="dropdown-menu">
                            <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
                            <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
                            <li class="divider"></li>
-                           <li><a href="#"><i class="fa fa-power-off"></i> Log Out</a></li>
+                           <li><a href="#" th:href="@{/logout}" sec:authorize="isAuthenticated()"><i class="fa fa-power-off"></i> Log Out</a></li>
                        </ul>
                    </li>
                 </ul>
