@@ -44,13 +44,22 @@
                         </ul>
                     </li>
                     <li th:classappend="${module == 'guru' ? 'active' : ''}" ><a href="/console/guru"><i class="fa fa-magic"></i> Guru</a></li>
+                    
                     <li class="nav nav-list nav-list-expandable">
                         <a><i class="fa fa-key"></i> Collapsed Menu Item <span class="caret"></span></a>
                         <ul class="nav navbar-nav">
-                            <li><a href="#">Sub Item 1</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-heart"></i>Sub Item 1</a></li>
                             <li><a href="#">Sub Item 2</a></li>
                         </ul>
                     <li>
+                    
+                    <li class="nav nav-list nav-list-expandable" th:each="menuGroup : ${session.menuGroupList}" th:classappend="${menuGroup.modules.contains(module) ? 'nav-list-expanded' : ''}">
+                        <a><i th:class="${menuGroup.iconClass}"></i> <span th:text="${menuGroup.name}">menuGroup.name</span>  <span class="caret"></span></a>
+                        <ul class="nav navbar-nav" >
+                            <li th:each="menu : ${menuGroup.menuList}" th:classappend="${module == menu.module ? 'active' : ''}"><a href="#" th:href="${menu.link}"><i th:class="${menu.iconClass}"></i><span th:text="${menu.name}">menu.name</span></a></li>
+                        </ul>
+                    <li>
+                    
                 </ul>
                 <ul class="nav navbar-nav navbar-right navbar-user">
                     <li class="dropdown messages-dropdown">

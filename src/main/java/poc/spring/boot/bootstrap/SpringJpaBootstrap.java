@@ -13,10 +13,14 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import poc.spring.boot.domain.model.Contact;
+import poc.spring.boot.domain.model.Menu;
+import poc.spring.boot.domain.model.MenuGroup;
 import poc.spring.boot.domain.model.Product;
 import poc.spring.boot.domain.model.Role;
 import poc.spring.boot.domain.model.User;
 import poc.spring.boot.domain.repository.ContactRepository;
+import poc.spring.boot.domain.repository.MenuGroupRepository;
+import poc.spring.boot.domain.repository.MenuRepository;
 import poc.spring.boot.domain.repository.ProductRepository;
 import poc.spring.boot.domain.repository.RoleRepository;
 import poc.spring.boot.domain.repository.UserRepository;
@@ -29,6 +33,8 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
 	@Autowired	private ContactRepository contactRepository;
 	@Autowired	private UserRepository userRepository;
 	@Autowired	private RoleRepository roleRepository;
+	@Autowired	private MenuGroupRepository menuGroupRepository;
+	@Autowired	private MenuRepository menuRepository;
 
     private Logger log = LoggerFactory.getLogger(SpringJpaBootstrap.class);
 
@@ -43,9 +49,40 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
 
         loadProducts();
         loadContact();
+
+        loadMenus();
     }
 
-    private void loadProducts() {
+    private void loadMenus() {
+    	MenuGroup menuGroup = new MenuGroup();
+    	menuGroup.setName("Show Case");
+    	menuGroup.setIconClass("glyphicon glyphicon-cog");
+    	
+    	Menu menu = new Menu();
+    	menu.setName("Menu Group");
+    	menu.setIconClass("glyphicon glyphicon-star");
+    	menu.setLink("/console/menu-group-list");
+    	menu.setModule("menuGroup");
+    	menuGroup.addMenu(menu);
+    	
+    	menu = new Menu();
+    	menu.setName("Menu");
+    	menu.setIconClass("glyphicon glyphicon-star-empty");
+    	menu.setLink("/console/menu-list");
+    	menu.setModule("menu-list");
+    	menuGroup.addMenu(menu);
+		
+    	menu = new Menu();
+    	menu.setName("New Menu");
+    	menu.setIconClass("glyphicon glyphicon-star-empty");
+    	menu.setLink("/console/menu/list");
+    	menu.setModule("menu");
+    	menuGroup.addMenu(menu);
+
+    	menuGroupRepository.save(menuGroup);
+	}
+
+	private void loadProducts() {
     	productRepository.deleteAll();
     	
         Product shirt = new Product();

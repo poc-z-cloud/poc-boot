@@ -1,25 +1,38 @@
 package poc.spring.boot.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import poc.spring.boot.domain.model.MenuGroup;
 import poc.spring.boot.domain.model.Product;
+import poc.spring.boot.service.CRUDService;
+import poc.spring.boot.service.MenuGroupService;
+import poc.spring.boot.service.MenuService;
 import poc.spring.boot.service.ProductService;
 
 
 @Controller
 @RequestMapping("/console")
+@SessionAttributes("menuGroupList")
 public class ConsoleController {
 
     @Autowired 
     private ProductService productService;
 
-
+    @Autowired 
+    private MenuGroupService menuGroupService;
+    @Autowired 
+    private MenuService menuService;
+    
 	
 	@RequestMapping("/")
     public String root(Model model) {
@@ -54,6 +67,40 @@ public class ConsoleController {
     public String roleList(Model model) {
     	model.addAttribute("module", "role-list");
         return "console/role-list";
+    }
+    
+//    @RequestMapping("/menu-group-list")
+//    public String menuGroupList(Model model) {
+//    	model.addAttribute("module", "menu-group");
+//        model.addAttribute("menuGroupList", menuGroupService.listAll());
+//        return "console/menu-group-list";
+//    }
+
+    @RequestMapping("/menu-group-list")
+    public String menuGroupList(Model model) {
+    	return goList(model,"menu-group", menuGroupService);
+    }
+
+    @RequestMapping("/menu-list")
+    public String menuList(Model model) {
+    	return goList(model,"menu", menuService);
+    }
+
+//    @RequestMapping("/menu/edit/{id}")
+    public String menuEdit(@PathVariable Integer id, Model model){
+    	return goEdit(model,"menu", menuService,id);
+    }
+    
+    private String goList(Model model, String module, CRUDService crudService) {
+    	model.addAttribute("module", module);
+        model.addAttribute("theList", crudService.listAll());
+        return "console/" + module + "-list";
+    }
+
+    private String goEdit(Model model, String module, CRUDService crudService, Integer id) {
+    	model.addAttribute("module", module);
+        model.addAttribute(module, crudService.getById(id));
+        return "console/" + module + "-edit";
     }
     
     @RequestMapping("/product-list")
@@ -97,4 +144,8 @@ public class ConsoleController {
         return "redirect:/console/product-list";
     }
     
+    @ModelAttribute("menuGroupList")
+    public List<MenuGroup> retrieveMenuGroupList(){
+    	return  (List<MenuGroup>) menuGroupService.listAll();    //return all for now	
+    }
 }
