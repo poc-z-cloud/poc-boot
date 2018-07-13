@@ -18,13 +18,13 @@ public class UserToUserDetails implements Converter<User, UserDetails> {
         UserDetailsImpl userDetails = new UserDetailsImpl();
 
         if (user != null) {
-            userDetails.setUsername(user.getUsername());
+            userDetails.setUsername(user.getName());
             userDetails.setPassword(user.getEncryptedPassword());
             userDetails.setEnabled(user.getEnabled());
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             
             for(Role role:user.getRoles()){
-            	authorities.add(new SimpleGrantedAuthority(role.getRole()));
+            	authorities.add(new SimpleGrantedAuthority(role.getName()));
             }
             	
             userDetails.setAuthorities(authorities);

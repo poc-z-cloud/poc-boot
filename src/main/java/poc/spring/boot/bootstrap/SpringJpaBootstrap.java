@@ -55,10 +55,25 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
 
     private void loadMenus() {
     	MenuGroup menuGroup = new MenuGroup();
-    	menuGroup.setName("Show Case");
+    	menuGroup.setName("Authorization");
     	menuGroup.setIconClass("glyphicon glyphicon-cog");
     	
     	Menu menu = new Menu();
+    	menu.setName("Users");
+    	menu.setIconClass("glyphicon glyphicon-star");
+    	menu.setLink("/console/user/list");
+    	menu.setModule("user");
+    	menuGroup.addMenu(menu);
+
+    	menu = new Menu();
+    	menu.setName("Roles");
+    	menu.setIconClass("glyphicon glyphicon-star");
+    	menu.setLink("/console/role/list");
+    	menu.setModule("role");
+    	menuGroup.addMenu(menu);
+    	
+    	//TODO rename menu to module
+    	menu = new Menu();
     	menu.setName("Menu Group");
     	menu.setIconClass("glyphicon glyphicon-star");
     	menu.setLink("/console/menu-group-list");
@@ -80,6 +95,20 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
     	menuGroup.addMenu(menu);
 
     	menuGroupRepository.save(menuGroup);
+    	
+    	menuGroup = new MenuGroup();
+    	menuGroup.setName("Show Case");
+    	menuGroup.setIconClass("glyphicon glyphicon-cog");
+    	
+    	menu = new Menu();
+    	menu.setName("Products");
+    	menu.setIconClass("glyphicon glyphicon-star-empty");
+    	menu.setLink("/product-list");
+    	menu.setModule("product-list");
+    	menuGroup.addMenu(menu);
+
+    	menuGroupRepository.save(menuGroup);
+    	
 	}
 
 	private void loadProducts() {
@@ -123,12 +152,12 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
     	userRepository.deleteAll();
     	
         User user1 = new User();
-        user1.setUsername("user");
+        user1.setName("user");
         user1.setPassword("user");
         userRepository.save(user1);
 
         User user2 = new User();
-        user2.setUsername("admin");
+        user2.setName("admin");
         user2.setPassword("admin");
         userRepository.save(user2);
 
@@ -138,22 +167,22 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
     	roleRepository.deleteAll();
     	
         Role role = new Role();
-        role.setRole("USER");
+        role.setName("USER");
         roleRepository.save(role);
-        log.info("Saved role" + role.getRole());
+        log.info("Saved role" + role.getName());
         Role adminRole = new Role();
-        adminRole.setRole("ADMIN");
+        adminRole.setName("ADMIN");
         roleRepository.save(adminRole);
-        log.info("Saved role" + adminRole.getRole());
+        log.info("Saved role" + adminRole.getName());
     }
     private void assignUsersToUserRole() {
         List<Role> roles = (List<Role>) roleRepository.findAll();
         List<User> users = (List<User>) userRepository.findAll();
 
         for(Role role: roles){
-        	if (role.getRole().equalsIgnoreCase("USER")){
+        	if (role.getName().equalsIgnoreCase("USER")){
         		for (User user:users){
-        			if (user.getUsername().equals("user")){
+        			if (user.getName().equals("user")){
         				user.addRole(role);
         				userRepository.save(user);
         			}
@@ -167,9 +196,9 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
         List<User> users = (List<User>) userRepository.findAll();
 
         for(Role role: roles){
-        	if (role.getRole().equalsIgnoreCase("ADMIN")){
+        	if (role.getName().equalsIgnoreCase("ADMIN")){
         		for (User user:users){
-        			if (user.getUsername().equals("admin")){
+        			if (user.getName().equals("admin")){
         				user.addRole(role);
         				userRepository.save(user);
         			}

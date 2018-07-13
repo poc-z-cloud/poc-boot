@@ -24,7 +24,7 @@ public abstract class  CRUDController<D extends DomainObject, S extends CRUDServ
 	public static final String TEMPLATE_BASE="/console/";
  
     @RequestMapping("/list")
-    private String doList(Model model) {
+    public String doList(Model model) {
     	model.addAttribute("module", this.getModuleName());
         model.addAttribute("theList", this.getService().listAll());
         return toList();
@@ -38,7 +38,7 @@ public abstract class  CRUDController<D extends DomainObject, S extends CRUDServ
     }
 
     @RequestMapping("/edit/{id}")
-    private String doEdit(@PathVariable Integer id, Model model) {
+    public String doEdit(@PathVariable Integer id, Model model) {
     	model.addAttribute("module", this.getModuleName());
         model.addAttribute(this.getModuleName(), this.getService().getById(id));
         return toEdit();

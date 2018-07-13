@@ -7,13 +7,8 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import java.util.ArrayList;
 import java.util.List;
  
-/**
- * Created by jt on 12/14/15.
- */
 @Entity
-public class User extends AbstractDomainClass  {
- 
-    private String username;
+public class User extends AbstractNamedDomainClass  {
  
     @Transient
     private String password;
@@ -25,14 +20,6 @@ public class User extends AbstractDomainClass  {
     @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
     private Integer failedLoginAttempts = 0;
- 
-    public String getUsername() {
-        return username;
-    }
- 
-    public void setUsername(String username) {
-        this.username = username;
-    }
  
     public String getPassword() {
         return password;

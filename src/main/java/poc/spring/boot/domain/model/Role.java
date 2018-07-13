@@ -8,26 +8,14 @@ import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.List;
  
-/**
- * Created by jt on 12/18/15.
- */
+
 @Entity
-public class Role extends AbstractDomainClass {
- 
-    private String role;
+public class Role extends AbstractNamedDomainClass {
  
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "role_id"),
          inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users = new ArrayList<>();
- 
-    public String getRole() {
-        return role;
-    }
- 
-    public void setRole(String role) {
-        this.role = role;
-    }
  
     public List<User> getUsers() {
         return users;

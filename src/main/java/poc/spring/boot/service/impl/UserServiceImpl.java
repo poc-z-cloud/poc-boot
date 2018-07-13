@@ -26,8 +26,8 @@ public class UserServiceImpl extends CRUDServiceImpl<User> implements UserServic
 	}
 
 	@Override
-	public User findByUsername(String username) {
-		return userRepository.findByUsername(username);
+	public User findByUsername(String name) {
+		return userRepository.findByName(name);
 	}
 
     @Override
