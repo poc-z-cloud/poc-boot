@@ -10,4 +10,7 @@ public interface CRUDService<T> {
     T saveOrUpdate(T domainObject);
  
     void delete(Integer id);
+    
+    void deleteMore(List<Integer> ids);
+
 }

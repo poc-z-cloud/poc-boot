@@ -10,41 +10,64 @@
 
 		    <h2>Menu Details</h2>
 		    <div>
-		        <form class="form-horizontal" th:object="${menu}" th:action="@{/console/menu/update}" method="post">
+		        <form class="form-horizontal" th:object="${user}" th:action="@{/console/user/update}" method="post">
 		            <input type="hidden" th:field="*{id}"/>
 		            <input type="hidden" th:field="*{version}"/>
 		            <div class="form-group">
-		                <label class="col-sm-2 control-label">Module:</label>
-		                <div class="col-sm-10">
-		                    <input type="text" class="form-control" th:field="*{module}"/>
-		                </div>
-		            </div>
-		            <div class="form-group">
-		                <label class="col-sm-2 control-label">Display Name:</label>
+		                <label class="col-sm-2 control-label">Name:</label>
 		                <div class="col-sm-10">
 		                    <input type="text" class="form-control" th:field="*{name}"/>
+		                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
 		                </div>
 		            </div>
 		            <div class="form-group">
-		                <label class="col-sm-2 control-label">Icon Class:</label>
+		                <label class="col-sm-2 control-label">Description:</label>
 		                <div class="col-sm-10">
-		                    <input type="text" class="form-control" th:field="*{iconClass}"/>
+		                    <input type="text" class="form-control" th:field="*{description}"/>
+		                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</span>
 		                </div>
 		            </div>
 		            <div class="form-group">
-		                <label class="col-sm-2 control-label">Link:</label>
+		                <label class="col-sm-2 control-label">Password:</label>
 		                <div class="col-sm-10">
-		                    <input type="text" class="form-control" th:field="*{link}"/>
+		                    <input type="password" class="form-control" th:field="*{password}"/>
 		                </div>
 		            </div>
-					<div class="form-group blu-margin">
-		                <label class="col-sm-2 control-label">Menu Group:</label>
-					    <select class="form-control" th:field="*{menuGroup}"  id="menuGroup">
-					    <option th:each="menuGroup : ${session.menuGroupList}" th:value="${menuGroup.id}" th:text="${menuGroup.name}"></option>
-					    </select>
-					</div>		            
+		            
+		            <div class="form-group row" >
+		                <label class="col-sm-2 control-label">Roles:</label>
+		                <div class="col-sm-10" >
+							<div class="form-group blu-margin col-sm-4">
+				                <label class="control-label">Granted Roles:</label>
+							    <select  multiple="multiple" size="10" class="form-control" th:field="*{roles}"  id="grantedRoles" ondblclick="return move(grantedRoles,availableRoles);">
+							    <option th:each="role : *{roles}" th:value="${role.id}" th:text="${role.name}"></option>
+							    </select>
+							</div>		            
+				            
+							<div class="btn-group-vertical col-sm-2" style="vertical-align: middle;">
+								<label class="control-label">&nbsp;</label>
+								<label class="control-label">&nbsp;</label>
+								<button type="button" class="btn btn-info" onclick="return move(availableRoles, grantedRoles);">&lt;</button>
+								<button type="button" class="btn btn-info" onclick="return move(grantedRoles, availableRoles);">&gt;</button>
+								<button type="button" class="btn btn-info" onclick="return moveAll(availableRoles, grantedRoles);">&lt;&lt;</button>
+								<button type="button" class="btn btn-info" onclick="return moveAll(grantedRoles, availableRoles);">&gt;&gt;</button>
+							</div>		            
+	
+							<div class="form-group blu-margin  col-sm-4">
+				                <label class="control-label">Revoked Roles:</label>
+							    <select  multiple="multiple" size="10" class="form-control"  id="availableRoles" ondblclick="return move(availableRoles, grantedRoles);">
+							    <option th:each="role : ${revokedRoles}" th:value="${role.id}" th:text="${role.name}"></option>
+							    </select>
+							</div>
+						</div>		            
+					</div>
+		            
 		            <div class="form-group">
-		                <button type="submit" class="btn btn-default">Submit</button>
+		            	<div class="col-sm-2"></div>
+			                <button type="submit" class="btn btn-primary" onclick="return selectAll(grantedRoles);">OK</button>
+			                <button type="button" class="btn" onclick="history.back();">Cancel</button>
+		            	<div class="col-sm-10" >
+		            	</div>
 		            </div>
 		        </form>
 		    </div>

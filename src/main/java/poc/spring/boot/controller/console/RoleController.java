@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import poc.spring.boot.controller.CRUDController;
+import poc.spring.boot.controller.NamedCRUDController;
+import poc.spring.boot.domain.model.ModuleIdEnum;
 import poc.spring.boot.domain.model.Role;
 import poc.spring.boot.domain.model.User;
 import poc.spring.boot.service.RoleService;
@@ -18,7 +20,7 @@ import poc.spring.boot.service.UserService;
 
 @Controller
 @RequestMapping("/console/role")
-public class RoleController extends CRUDController<Role, RoleService> {
+public class RoleController extends NamedCRUDController<Role, RoleService> {
 
 	@Autowired
 	private RoleService roleService;
@@ -27,8 +29,8 @@ public class RoleController extends CRUDController<Role, RoleService> {
 	private UserService userService;
 	
 	@Override
-	protected String getModuleName() {
-		return "role";
+	protected String getModuleId() {
+		return ModuleIdEnum.role.toString();
 	}
 
 	@Override

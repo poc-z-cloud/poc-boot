@@ -33,5 +33,12 @@ public abstract class CRUDServiceImpl<T> implements CRUDService<T>{
 		
 	}
 
+	@Override
+	public void deleteMore(List<Integer> ids) {
+		for (Integer id : ids) {
+			delete(id);			
+		}
+	}
+
 	abstract protected CrudRepository<T,Integer> getRepository();
 }

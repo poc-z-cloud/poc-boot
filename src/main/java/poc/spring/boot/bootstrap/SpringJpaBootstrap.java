@@ -13,14 +13,15 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import poc.spring.boot.domain.model.Contact;
-import poc.spring.boot.domain.model.Menu;
-import poc.spring.boot.domain.model.MenuGroup;
+import poc.spring.boot.domain.model.Module;
+import poc.spring.boot.domain.model.ModuleGroup;
+import poc.spring.boot.domain.model.ModuleIdEnum;
 import poc.spring.boot.domain.model.Product;
 import poc.spring.boot.domain.model.Role;
 import poc.spring.boot.domain.model.User;
 import poc.spring.boot.domain.repository.ContactRepository;
-import poc.spring.boot.domain.repository.MenuGroupRepository;
-import poc.spring.boot.domain.repository.MenuRepository;
+import poc.spring.boot.domain.repository.ModuleGroupRepository;
+import poc.spring.boot.domain.repository.ModuleRepository;
 import poc.spring.boot.domain.repository.ProductRepository;
 import poc.spring.boot.domain.repository.RoleRepository;
 import poc.spring.boot.domain.repository.UserRepository;
@@ -33,8 +34,8 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
 	@Autowired	private ContactRepository contactRepository;
 	@Autowired	private UserRepository userRepository;
 	@Autowired	private RoleRepository roleRepository;
-	@Autowired	private MenuGroupRepository menuGroupRepository;
-	@Autowired	private MenuRepository menuRepository;
+	@Autowired	private ModuleGroupRepository moduleGroupRepository;
+	@Autowired	private ModuleRepository moduleRepository;
 
     private Logger log = LoggerFactory.getLogger(SpringJpaBootstrap.class);
 
@@ -54,60 +55,52 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
     }
 
     private void loadMenus() {
-    	MenuGroup menuGroup = new MenuGroup();
-    	menuGroup.setName("Authorization");
-    	menuGroup.setIconClass("glyphicon glyphicon-cog");
+    	ModuleGroup moduleGroup = new ModuleGroup();
+    	moduleGroup.setName("Authorization");
+    	moduleGroup.setIconClass("glyphicon glyphicon-cog");
     	
-    	Menu menu = new Menu();
-    	menu.setName("Users");
-    	menu.setIconClass("glyphicon glyphicon-star");
-    	menu.setLink("/console/user/list");
-    	menu.setModule("user");
-    	menuGroup.addMenu(menu);
+    	Module module = new Module();
+    	module.setModuleId(ModuleIdEnum.user.toString());
+    	module.setName("Users");
+    	module.setIconClass("glyphicon glyphicon-star");
+    	module.setLink("/console/user/list");
+    	moduleGroup.addModule(module);
 
-    	menu = new Menu();
-    	menu.setName("Roles");
-    	menu.setIconClass("glyphicon glyphicon-star");
-    	menu.setLink("/console/role/list");
-    	menu.setModule("role");
-    	menuGroup.addMenu(menu);
+    	module = new Module();
+    	module.setModuleId(ModuleIdEnum.role.toString());
+    	module.setName("Roles");
+    	module.setIconClass("glyphicon glyphicon-star");
+    	module.setLink("/console/role/list");
+    	moduleGroup.addModule(module);
     	
     	//TODO rename menu to module
-    	menu = new Menu();
-    	menu.setName("Menu Group");
-    	menu.setIconClass("glyphicon glyphicon-star");
-    	menu.setLink("/console/menu-group-list");
-    	menu.setModule("menuGroup");
-    	menuGroup.addMenu(menu);
+    	module = new Module();
+    	module.setModuleId(ModuleIdEnum.moduleGroup.toString());
+    	module.setName("Module Group");
+    	module.setIconClass("glyphicon glyphicon-star");
+    	module.setLink("/console/module-group/list");
+    	moduleGroup.addModule(module);
     	
-    	menu = new Menu();
-    	menu.setName("Menu");
-    	menu.setIconClass("glyphicon glyphicon-star-empty");
-    	menu.setLink("/console/menu-list");
-    	menu.setModule("menu-list");
-    	menuGroup.addMenu(menu);
+    	module = new Module();
+    	module.setModuleId(ModuleIdEnum.module.toString());
+    	module.setName("Modules");
+    	module.setIconClass("glyphicon glyphicon-star-empty");
+    	module.setLink("/console/module/list");
+    	moduleGroup.addModule(module);
 		
-    	menu = new Menu();
-    	menu.setName("New Menu");
-    	menu.setIconClass("glyphicon glyphicon-star-empty");
-    	menu.setLink("/console/menu/list");
-    	menu.setModule("menu");
-    	menuGroup.addMenu(menu);
-
-    	menuGroupRepository.save(menuGroup);
+    	moduleGroupRepository.save(moduleGroup);
     	
-    	menuGroup = new MenuGroup();
-    	menuGroup.setName("Show Case");
-    	menuGroup.setIconClass("glyphicon glyphicon-cog");
+    	moduleGroup = new ModuleGroup();
+    	moduleGroup.setName("Show Case");
+    	moduleGroup.setIconClass("glyphicon glyphicon-cog");
     	
-    	menu = new Menu();
-    	menu.setName("Products");
-    	menu.setIconClass("glyphicon glyphicon-star-empty");
-    	menu.setLink("/product-list");
-    	menu.setModule("product-list");
-    	menuGroup.addMenu(menu);
+    	module = new Module();
+    	module.setName("product-list");
+    	module.setIconClass("glyphicon glyphicon-star-empty");
+    	module.setLink("/mvc/product-list");
+    	moduleGroup.addModule(module);
 
-    	menuGroupRepository.save(menuGroup);
+    	moduleGroupRepository.save(moduleGroup);
     	
 	}
 
@@ -153,11 +146,13 @@ public class SpringJpaBootstrap implements ApplicationListener<ContextRefreshedE
     	
         User user1 = new User();
         user1.setName("user");
+        user1.setDescription("regular user");
         user1.setPassword("user");
         userRepository.save(user1);
 
         User user2 = new User();
         user2.setName("admin");
+        user2.setDescription("Super user");
         user2.setPassword("admin");
         userRepository.save(user2);
 

@@ -7,26 +7,104 @@
         <nav th:replace="fragments/console-template :: nav"></nav>         
 
         <div id="page-wrapper">
+	        <form id="frmList" th:object="${theListForm}" th:action="@{/console/role/delete}" method="post">
+		    		<h1 id="title-bread-crumb">Role list</h1>
+		 			<p class="instruction-text">Use this page to show the role list. You can set filter to shorten the list. </p>
+		            
+		            
+        			<table border="0" cellpadding="3" cellspacing="0" valign="top" width="100%" summary="Framing Table" CLASS="button-section">
+        				<tr valign="top">
+        					<td class="table-button-section"  nowrap> 
+							    <table style="display: inline; font-size: 95%;" cellspacing="0" cellpadding="0" border="0">
+    								<tr>
+        								<td>
+									        <A id="selectAllButton" HREF="javascript:selectAll()" tabindex="1" CLASS="expand-task">
+									            <IMG id="selectAllImg" align="top" SRC="/images/wtable_select_all.gif" ALT='Select All' BORDER="0"> 
+									        </A>
+									        </td>
+									        <td>
+									        <A id="deselectAllButton" HREF="javascript:selectNone()" tabindex="1" CLASS="expand-task">
+									            <IMG id="deselectAllImg" align="top" SRC="/images/wtable_deselect_all.gif" ALT='Deselect All' BORDER="0"> 
+									        </A>  
+									        </td>
+									        
+											<td>
+									        <A HREF="javascript:showHideFilter()" tabindex="1" CLASS="expand-task">
+									            <IMG id="filterTableImg" align="top" SRC="/images/wtable_filter_row_show.gif" ALT='Show filter function' BORDER="0"> 
+									        </A>
+									        </td>
+									        <td>
+									        <A HREF="javascript:clearFilter('frmList')" tabindex="1" CLASS="expand-task">
+									            <IMG  id="clearFilterImg" align="top" SRC="/images/wtable_clear_filters.gif" ALT='Clear filter value' BORDER="0" /> 
+									        </A>
+								        </td>
+										<td>
+							              <div style="position:relative;"><input type="button" name="button.new" value="New" onclick="return btnAdd_onclick()" class="buttons" id="functions"/> </div>
+										</td>
+						              	<td>
+							              <div style="position:relative;"><input type="button" name="button.delete" value="Delete" onclick="return btnDel_onclick()" class="buttons" id="functions"/> </div>
+								        </td>
+							    	</tr>
+							    </table>    
+					        </td>
+				        </tr>
+			        </table>
+
+
+					<TABLE BORDER="0" CELLPADDING="3" CELLSPACING="1" WIDTH="100%" SUMMARY="List table" CLASS="framing-table">
+						<TR  ID="filterControls" STYLE="display:none" width="100%">
+					    	<TD CLASS="column-filter-expanded" COLSPAN=7>
+					           <BR>To filter the following table, enter filter criteria.
+					           <table width="10%" border="0">
+								 <TR valign="top">
+								     <td NOWRAP CLASS="column-filter-expanded"  scope="row" valign="top"width="20%" >Name:</TD>
+								     <TD NOWRAP CLASS="column-filter-expanded"  scope="row" valign="top"width="80%" >
+								     	<INPUT size="60"  th:field="*{name}" class="textEntryRequired" /> 
+								     </TD>
+								   </TR>
+								    <TR>
+								        <td NOWRAP CLASS="column-filter-expanded"  scope="row" valign="top"width="20%" >Description:</TD>
+								        <TD NOWRAP CLASS="column-filter-expanded"  scope="row" valign="top"width="80%" >
+								        	<INPUT size="60" th:field="*{description}"class="textEntry"/>
+								        </TD>
+								   </TR>
+					           
+						           <tr>
+							           <td NOWRAP CLASS="column-filter-expanded" align="left" valign="top"></td>
+							           <td NOWRAP CLASS="column-filter-expanded" align="left" valign="top">
+							           	<INPUT TYPE="submit" NAME="searchAction" ID="searchAction" VALUE="Go" CLASS="buttons-filter" onclick="return goSearch();"/>
+							           </td>
+						           </tr>
+					           </table>
+				           </TD> 
+			           </TR>
+					</TABLE>		            
+		            
 		    <div th:if="${not #lists.isEmpty(theList)}">
-		        <form th:action="@{/logout}" method="post">
-		            <div class="col-sm-10"><h2>Role Listing</h2></div>
-		        </form>
 		        <table class="table table-striped">
 		            <tr>
-		                <th>Id</th>
+				        <TH NOWRAP VALIGN="TOP" CLASS="column-head-name" SCOPE="col" id="selectCell" WIDTH="1%"><B>Order</B></TH>
 		                <th>Name</th>
-		                <th sec:authorize="hasAuthority('ADMIN')">Edit</th>
-		                <th sec:authorize="hasAuthority('ADMIN')">Delete</th>
+		                <th>Description</th>
 		             </tr>
-		            <tr th:each="role : ${theList}">
-		                <td th:text="${role.id}">role.id</td>
-		                <td th:text="${role.name}">role.name</td>
-
-		                <td sec:authorize="hasAuthority('ADMIN')"><a th:href="${'/console/role/edit/' + role.id}">Edit</a></td>
-		                <td sec:authorize="hasAuthority('ADMIN')"><a th:href="${'/console/role/delete/' + role.id}" onclick="return confirm('Are you sure?')">Delete</a></td>
+		            <tr th:each="role,iter : ${theList}">
+					    <TD VALIGN="top"  NOWRAP class="collection-table-text">
+					    	<input type=checkbox class="check" name=check th:value="${role.id}" th:field="*{ids}"><span th:text="${iter.index+1}"><%=i+1%></span>
+					    </TD>
+		                <td ><a th:text="${role.name}" th:href="${'/console/role/edit/' + role.id}">role.name</a></td>
+		                <td th:text="${role.description}">role.description</td>
 		            </tr>
 		        </table>
+					<TABLE class="paging-table" BORDER="0" CELLPADDING="5" CELLSPACING="0" WIDTH="100%" SUMMARY="Table for displaying paging function">
+						<TR>
+					       <TD CLASS="table-totals" VALIGN="baseline" th:text="${'Total: ' + theList.size()}">               
+					            Total theList.size
+					             &nbsp;&nbsp;&nbsp;               
+							</TD>
+						</TR>
+					</TABLE>
 		
+		        </form>
 		    </div>
         </div>
         <!-- /#page-wrapper -->

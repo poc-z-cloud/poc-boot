@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="fragments/console-template :: head">
+</head>
+<body>
+    <div id="wrapper">
+        <nav th:replace="fragments/console-template :: nav"></nav>         
+
+        <div id="page-wrapper">
+		    <div th:if="${not #lists.isEmpty(theList)}">
+		        <form th:action="@{/logout}" method="post">
+		            <div class="col-sm-10"><h2>Module Listing</h2></div>
+		        </form>
+		        <table class="table table-striped">
+		            <tr>
+		                <th>Id</th>
+		                <th>Module Id</th>
+		                <th>Display Name</th>
+		                <th>Icon Class</th>
+		                <th>Link</th>
+		                <th>Group</th>
+		                <th sec:authorize="hasAuthority('ADMIN')">Edit</th>
+		                <th sec:authorize="hasAuthority('ADMIN')">Delete</th>
+		             </tr>
+		            <tr th:each="module : ${theList}">
+		                <td th:text="${module.id}">module.id</td>
+		                <td th:text="${module.moduleId}">module.module</td>
+		                <td th:text="${module.name}">module.name</td>
+		                <td th:text="${module.iconClass}">module.iconClass</td>
+		                <td th:text="${module.link}">module.link</td>
+		                <td th:text="${module.moduleGroup.name}">module.moduleGroup.name</td>
+
+		                <td sec:authorize="hasAuthority('ADMIN')"><a th:href="${'/console/module/edit/' + module.id}">Edit</a></td>
+		                <td sec:authorize="hasAuthority('ADMIN')"><a th:href="${'/console/module/delete/' + module.id}" onclick="return confirm('Are you sure?')">Delete</a></td>
+		            </tr>
+		        </table>
+		
+		    </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+	<div th:replace="fragments/console-template :: footer"></div>
+</body>
+</html>

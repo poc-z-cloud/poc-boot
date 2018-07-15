@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PB Dashboard Home | Bootstrap Admin Theme</title>
 
-    <link rel="stylesheet" type="text/css" href="/pbdashboard/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="/pbdashboard/fonts/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/vendor/fonts/font-awesome/css/font-awesome.min.css" />
 
-    <link id="themecss" rel="stylesheet" type="text/css" href="http://www.shieldui.com/shared/components/latest/css/light/all.min.css" />
-
-    <link rel="stylesheet" type="text/css" href="/pbdashboard/css/theme.css" />
-    <link rel="stylesheet" type="text/css" href="/pbdashboard/css/dashboard.css" />
+    <link rel="stylesheet" type="text/css" href="/css/theme.css" />
+    <link rel="stylesheet" type="text/css" href="/css/dashboard.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="/css/console.css" /> -->
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -53,10 +52,10 @@
                         </ul>
                     <li>
                     
-                    <li class="nav nav-list nav-list-expandable" th:each="menuGroup : ${session.menuGroupList}" th:classappend="${menuGroup.modules.contains(module) ? 'nav-list-expanded' : ''}">
-                        <a><i th:class="${menuGroup.iconClass}"></i> <span th:text="${menuGroup.name}">menuGroup.name</span>  <span class="caret"></span></a>
+                    <li class="nav nav-list nav-list-expandable" th:each="moduleGroup : ${session.moduleGroupList}" th:classappend="${moduleGroup.moduleIds.contains(moduleId) ? 'nav-list-expanded' : ''}">
+                        <a><i th:class="${moduleGroup.iconClass}"></i> <span th:text="${moduleGroup.name}">moduleGroup.name</span>  <span class="caret"></span></a>
                         <ul class="nav navbar-nav" >
-                            <li th:each="menu : ${menuGroup.menuList}" th:classappend="${module == menu.module ? 'active' : ''}"><a href="#" th:href="${menu.link}"><i th:class="${menu.iconClass}"></i><span th:text="${menu.name}">menu.name</span></a></li>
+                            <li th:each="module : ${moduleGroup.moduleList}" th:classappend="${moduleId == module.moduleId ? 'active' : ''}"><a href="#" th:href="${module.link}"><i th:class="${module.iconClass}"></i><span th:text="${module.name}">module.name</span></a></li>
                         </ul>
                     <li>
                     
@@ -101,12 +100,13 @@
     <!-- /#wrapper -->
 
 	<div th:fragment="footer">
-	    <script type="text/javascript" src="/pbdashboard/js/jquery-1.10.2.min.js"></script>
-	    <script type="text/javascript" src="/pbdashboard/bootstrap/js/bootstrap.min.js"></script>
+	    <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+	    <script type="text/javascript" src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 	
 	    <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
 	
-	    <script type="text/javascript" src="/pbdashboard/js/theme.js"></script>
+	    <script type="text/javascript" src="/js/theme.js"></script>
+	    <script type="text/javascript" src="/js/list-edit.js"></script>
     </div>
 </body>
 </html>

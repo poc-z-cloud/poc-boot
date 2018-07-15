@@ -14,24 +14,16 @@
 		        <table class="table table-striped">
 		            <tr>
 		                <th>Id</th>
-		                <th>Module</th>
-		                <th>Display Name</th>
-		                <th>Icon Class</th>
-		                <th>Link</th>
-		                <th>Group</th>
+		                <th>Name</th>
 		                <th sec:authorize="hasAuthority('ADMIN')">Edit</th>
 		                <th sec:authorize="hasAuthority('ADMIN')">Delete</th>
 		             </tr>
-		            <tr th:each="menu : ${theList}">
-		                <td th:text="${menu.id}">menu.id</td>
-		                <td th:text="${menu.module}">menu.module</td>
-		                <td th:text="${menu.name}">menu.name</td>
-		                <td th:text="${menu.iconClass}">menu.iconClass</td>
-		                <td th:text="${menu.link}">menu.link</td>
-		                <td th:text="${menu.menuGroup.name}">menu.menuGroup.name</td>
+		            <tr th:each="user : ${theList}">
+		                <td th:text="${user.id}">user.id</td>
+		                <td th:text="${user.name}">user.name</td>
 
-		                <td sec:authorize="hasAuthority('ADMIN')"><a th:href="${'/console/menu/edit/' + menu.id}">Edit</a></td>
-		                <td sec:authorize="hasAuthority('ADMIN')"><a th:href="${'/console/menu/delete/' + menu.id}" onclick="return confirm('Are you sure?')">Delete</a></td>
+		                <td sec:authorize="hasAuthority('ADMIN')"><a th:href="${'/console/user/edit/' + user.id}">Edit</a></td>
+		                <td sec:authorize="hasAuthority('ADMIN')"><a th:href="${'/console/user/delete/' + user.id}" onclick="return confirm('Are you sure?')">Delete</a></td>
 		            </tr>
 		        </table>
 		

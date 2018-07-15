@@ -1,6 +1,12 @@
 package poc.spring.boot.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,27 +31,31 @@ public abstract class  CRUDController<D extends DomainObject, S extends CRUDServ
  
     @RequestMapping("/list")
     public String doList(Model model) {
-    	model.addAttribute("module", this.getModuleName());
+    	model.addAttribute("moduleId", this.getModuleId());
         model.addAttribute("theList", this.getService().listAll());
+        model.addAttribute("theListForm", new TheListForm());
         return toList();
     }
 
     @RequestMapping("/new")
     public String doNew(Model model){
-    	model.addAttribute("module", this.getModuleName());
-        model.addAttribute(this.getModuleName(), getDomainObject());
+    	model.addAttribute("moduleId", this.getModuleId());
+        model.addAttribute(this.getModuleId(), getDomainObject());
         return toEdit();
     }
 
     @RequestMapping("/edit/{id}")
     public String doEdit(@PathVariable Integer id, Model model) {
-    	model.addAttribute("module", this.getModuleName());
-        model.addAttribute(this.getModuleName(), this.getService().getById(id));
+    	model.addAttribute("moduleId", this.getModuleId());
+        model.addAttribute(this.getModuleId(), this.getService().getById(id));
         return toEdit();
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String doSave(D domainObject){
+    public String doSave(@Valid D domainObject,BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            return toEdit();
+        }    	
     	this.getService().saveOrUpdate(domainObject);
 //        return "redirect:/console/product/" + product.getId();
         return "redirect:" + toList();
@@ -55,16 +65,21 @@ public abstract class  CRUDController<D extends DomainObject, S extends CRUDServ
     	this.getService().delete(id);
         return "redirect:" + toList();
     }
+    @RequestMapping(value ="/delete", method = RequestMethod.POST)
+    public String doDeleteMore(TheListForm theListForm){
+    	this.getService().deleteMore(theListForm.getIds());
+        return "redirect:" + toList();
+    }
 
     protected String toList(){
-    	return TEMPLATE_BASE + this.getModuleName() + "/list";
+    	return TEMPLATE_BASE + this.getModuleId() + "/list";
     }
     
     protected String toEdit(){
-    	return TEMPLATE_BASE + this.getModuleName() + "/edit";
+    	return TEMPLATE_BASE + this.getModuleId() + "/edit";
     }
     
-    abstract protected String getModuleName();
+    abstract protected String getModuleId();
     abstract protected S getService();
     abstract protected DomainObject getDomainObject();
 }

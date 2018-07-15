@@ -12,26 +12,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import poc.spring.boot.domain.model.MenuGroup;
+import poc.spring.boot.domain.model.ModuleGroup;
 import poc.spring.boot.domain.model.Product;
 import poc.spring.boot.service.CRUDService;
-import poc.spring.boot.service.MenuGroupService;
-import poc.spring.boot.service.MenuService;
+import poc.spring.boot.service.ModuleGroupService;
+import poc.spring.boot.service.ModuleService;
 import poc.spring.boot.service.ProductService;
 
 
 @Controller
 @RequestMapping("/console")
-@SessionAttributes("menuGroupList")
+@SessionAttributes("moduleGroupList")
 public class ConsoleController {
 
     @Autowired 
     private ProductService productService;
 
     @Autowired 
-    private MenuGroupService menuGroupService;
+    private ModuleGroupService moduleGroupService;
     @Autowired 
-    private MenuService menuService;
+    private ModuleService moduleService;
     
 	
 	@RequestMapping("/")
@@ -78,17 +78,17 @@ public class ConsoleController {
 
     @RequestMapping("/menu-group-list")
     public String menuGroupList(Model model) {
-    	return goList(model,"menu-group", menuGroupService);
+    	return goList(model,"menu-group", moduleGroupService);
     }
 
     @RequestMapping("/menu-list")
     public String menuList(Model model) {
-    	return goList(model,"menu", menuService);
+    	return goList(model,"menu", moduleService);
     }
 
 //    @RequestMapping("/menu/edit/{id}")
     public String menuEdit(@PathVariable Integer id, Model model){
-    	return goEdit(model,"menu", menuService,id);
+    	return goEdit(model,"menu", moduleService,id);
     }
     
     private String goList(Model model, String module, CRUDService crudService) {
@@ -144,8 +144,8 @@ public class ConsoleController {
         return "redirect:/console/product-list";
     }
     
-    @ModelAttribute("menuGroupList")
-    public List<MenuGroup> retrieveMenuGroupList(){
-    	return  (List<MenuGroup>) menuGroupService.listAll();    //return all for now	
+    @ModelAttribute("moduleGroupList")
+    public List<ModuleGroup> retrieveModuleGroupList(){
+    	return  (List<ModuleGroup>) moduleGroupService.listAll();    //return all for now	
     }
 }
