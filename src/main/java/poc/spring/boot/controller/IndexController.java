@@ -13,5 +13,10 @@ public class IndexController {
     String console(){
         return "console/dashboard";
     }
+    @RequestMapping("/test/")
+    String test(){
+        return "file";
+    }
+
 
 }

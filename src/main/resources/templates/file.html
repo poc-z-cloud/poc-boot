@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+
+    <title>File upload</title>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+</div>
+
+<form action="/test/upload" method="POST" enctype="multipart/form-data">
+    <input type="text" name="fileid" />
+    <br />
+    <input type="text" name="description" />
+    <br />
+    <input type="file" name="thefile" />
+    <br />
+    <input type="submit" name="submit" value="submit"/>
+</form>
+</body>
+</html>
